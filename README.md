@@ -45,24 +45,3 @@ You can also add optional parameters:
 
 4. Test the EXE
 Double-click the generated .exe file to run your Folder Security Tool. Make sure to run it as Administrator if you're modifying NTFS permissions.
-
-🔒 Pro Tip: UAC Elevation
-If you want the EXE to always request admin privileges, you can embed a manifest file
-
-🔐 Add This to the Top of Your Script
-# Self-elevate if not running as Administrator
-if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    Write-Host "Restarting script with elevated privileges..."
-    Start-Process powershell "-ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
-    exit
-}
-
-🛠 How It Works
-Checks if the current user has Administrator rights.
-
-If not, it relaunches the script using Start-Process with the -Verb RunAs flag, which triggers the UAC prompt.
-
--ExecutionPolicy Bypass ensures the script runs without policy restrictions.
-
-✅ Final Tip
-Once you embed this block and convert your script to an .exe using PS2EXE, the elevation will still work—because the .exe will internally run PowerShell with the same logic.
