@@ -1,0 +1,6 @@
+# Self-elevate if not running as Administrator
+if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Host "Restarting script with elevated privileges..."
+    Start-Process powershell "-ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    exit
+}
